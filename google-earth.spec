@@ -10,7 +10,7 @@ Release:	0.5
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/GE%{version}/%{name}Linux.bin
-# Source0-md5:	8a20af712531bdd358dfc738be605d8a
+# NoSource0-md5:	8a20af712531bdd358dfc738be605d8a
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
