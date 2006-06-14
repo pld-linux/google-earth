@@ -8,5 +8,5 @@ Terminal=false
 MultipleArgs=false
 Type=Application
 Icon=googleearth-icon.png
-Categories=Application;Network
+Categories=Application;Network;
 MimeType=application/vnd.google-earth.kml+xml;application/vnd.google-earth.kmz;application/earthviewer;application/keyhole
