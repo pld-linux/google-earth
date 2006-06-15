@@ -4,6 +4,7 @@
 # - mark national resources as lang
 #
 Summary:	Google Earth - 3D planet viewer
+Summary(pl):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
 Release:	0.5
@@ -24,7 +25,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_google_data_path	%{_libdir}/%{name}
 
 %description
-Google Earth puts a planet's worth of imagery and other geographic information right on your desktop. View exotic locales like Maui and Paris as well as points of interest such as local restaurants, hospitals, schools, and more.
+Google Earth puts a planet's worth of imagery and other geographic
+information right on your desktop. View exotic locales like Maui and
+Paris as well as points of interest such as local restaurants,
+hospitals, schools, and more.
+
+%description -l pl
+Google Earth pokazuje obrazy Ziemii oraz informacje geograficzne. Mo¿na
+obejrzeæ tak egzotyczne lokalizacje jak Maui czy Pary¿, jak równie¿
+miejsca typu restauracje, szpitale, szko³y i inne.
 
 %prep
 %setup -q -T -c
@@ -37,16 +46,13 @@ tar -xvf googleearth-data.tar
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/env.d,%{_bindir},%{_google_data_path}} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_google_data_path}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 #install -d $RPM_BUILD_ROOT{%{jredir},%{_javadir},%{_includedir}} \
-#	$RPM_BUILD_ROOT{%{_mandir}/{,ja/}man1,/etc/env.d,%{_prefix}/src/%{name}-sources} \
+#	$RPM_BUILD_ROOT{%{_mandir}/{,ja/}man1,%{_prefix}/src/%{name}-sources} \
 
-install bin/googleearth $RPM_BUILD_ROOT%{_bindir}
-
-cat << EOF > $RPM_BUILD_ROOT/etc/env.d/GOOGLEEARTH_DATA_PATH
-GOOGLEEARTH_DATA_PATH="%{_google_data_path}"
-EOF
+sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="/usr/lib/GoogleEarth"
+5,40d' bin/googleearth > $RPM_BUILD_ROOT%{_bindir}/googleearth
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install googleearth-icon.png $RPM_BUILD_ROOT%{_pixmapsdir}
@@ -56,9 +62,14 @@ install googleearth-bin $RPM_BUILD_ROOT%{_google_data_path}
 install *.ini $RPM_BUILD_ROOT%{_google_data_path}
 
 # Some libraries:
-install libcomponent.so libfusion.so libgeobase.so libmath.so \
-	libwmsbase.so libnet.so libcollada.so libbase.so libgoogleearth.so \
-	$RPM_BUILD_ROOT%{_google_data_path}
+#install libcomponent.so libfusion.so libgeobase.so libmath.so \
+#	libwmsbase.so libnet.so libcollada.so libbase.so libgoogleearth.so \
+#	$RPM_BUILD_ROOT%{_google_data_path}
+#install lib{IGAttrs,IGCollision,IGCore,IGDisplay,IGExportCommon,IGGfx,IGGui,IGMath,IGOpt,IGSg,IGUtils,auth,common,framework,render,evll}.so \
+#	lib{navigate,layer,measure,gps,basicIngest,googlesearch}.so \
+#	$RPM_BUILD_ROOT%{_google_data_path}
+#install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
+install lib* $RPM_BUILD_ROOT%{_google_data_path}
 
 cp -R kvw xml lang res resources $RPM_BUILD_ROOT%{_google_data_path}
 
@@ -68,12 +79,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc EULA-*
-%attr(644,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/*
 %attr(755,root,root) %{_bindir}/*
 %dir %{_google_data_path}
 %{_google_data_path}/*.ini
 %attr(755,root,root) %{_google_data_path}/googleearth-bin
-%attr(755,root,root) %{_google_data_path}/*.so
+%attr(755,root,root) %{_google_data_path}/*.so*
 %dir %{_google_data_path}/kvw
 %{_google_data_path}/kvw/*.kvw
 %dir %{_google_data_path}/lang
