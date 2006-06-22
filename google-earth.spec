@@ -15,8 +15,6 @@ Source0:	http://dl.google.com/earth/GE%{version}/%{name}Linux.bin
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
-#BuildRequires:	rpm-build >= 4.3-0.20040107.21
-#BuildRequires:	rpmbuild(macros) >= 1.236
 Requires:	curl-libs
 Requires:	openssl
 ExclusiveArch:	i586 i686 pentium3 pentium4 athlon
@@ -31,14 +29,14 @@ Paris as well as points of interest such as local restaurants,
 hospitals, schools, and more.
 
 %description -l pl
-Google Earth pokazuje obrazy Ziemii oraz informacje geograficzne. Mo¿na
+Google Earth pokazuje obrazy Ziemi oraz informacje geograficzne. Mo¿na
 obejrzeæ tak egzotyczne lokalizacje jak Maui czy Pary¿, jak równie¿
 miejsca typu restauracje, szpitale, szko³y i inne.
 
 %prep
 %setup -q -T -c
-head -376 %{SOURCE0} > %{name}-%{version}.sh
-tail +377 %{SOURCE0} > %{name}-%{version}.tar.bz2
+head -n 376 %{SOURCE0} > %{name}-%{version}.sh
+tail -n +377 %{SOURCE0} > %{name}-%{version}.tar.bz2
 
 tar -jxvf %{name}-%{version}.tar.bz2
 tar -xvf googleearth-linux-x86.tar
@@ -48,10 +46,8 @@ tar -xvf googleearth-data.tar
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_google_data_path}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
-#install -d $RPM_BUILD_ROOT{%{jredir},%{_javadir},%{_includedir}} \
-#	$RPM_BUILD_ROOT{%{_mandir}/{,ja/}man1,%{_prefix}/src/%{name}-sources} \
 
-sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="/usr/lib/GoogleEarth"
+sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="%{_google_data_path}"
 5,40d' bin/googleearth > $RPM_BUILD_ROOT%{_bindir}/googleearth
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
@@ -93,24 +89,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_google_data_path}/resources
 %{_google_data_path}/resources/*.png
 %{_google_data_path}/resources/*.jpg
-%dir %{_google_data_path}/resources/de_DE.locale
-%{_google_data_path}/resources/de_DE.locale/*
-%dir %{_google_data_path}/resources/en_AU.locale
-%{_google_data_path}/resources/en_AU.locale/*
-%dir %{_google_data_path}/resources/en_CA.locale
-%{_google_data_path}/resources/en_CA.locale/*
-%dir %{_google_data_path}/resources/en_NZ.locale
-%{_google_data_path}/resources/en_NZ.locale/*
-%dir %{_google_data_path}/resources/en_UK.locale
-%{_google_data_path}/resources/en_UK.locale/*
-%dir %{_google_data_path}/resources/en_US.locale
-%{_google_data_path}/resources/en_US.locale/*
-%dir %{_google_data_path}/resources/es_ES.locale
-%{_google_data_path}/resources/es_ES.locale/*
-%dir %{_google_data_path}/resources/fr_FR.locale
-%{_google_data_path}/resources/fr_FR.locale/*
-%dir %{_google_data_path}/resources/it_IT.locale
-%{_google_data_path}/resources/it_IT.locale/*
+%lang(de) %{_google_data_path}/resources/de_DE.locale
+%lang(en_AU) %{_google_data_path}/resources/en_AU.locale
+%lang(en_CA) %{_google_data_path}/resources/en_CA.locale
+%lang(en_NZ) %{_google_data_path}/resources/en_NZ.locale
+%lang(en_GB) %{_google_data_path}/resources/en_UK.locale
+%lang(en_US) %{_google_data_path}/resources/en_US.locale
+%lang(es) %{_google_data_path}/resources/es_ES.locale
+%lang(fr) %{_google_data_path}/resources/fr_FR.locale
+%lang(it) %{_google_data_path}/resources/it_IT.locale
 %dir %{_google_data_path}/xml
 %{_google_data_path}/xml/*.xml
 %{_desktopdir}/*.desktop
