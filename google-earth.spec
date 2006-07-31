@@ -7,11 +7,11 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
-Release:	0.5
+Release:	0.6
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/GE%{version}/%{name}Linux.bin
-# NoSource0-md5:	8a20af712531bdd358dfc738be605d8a
+# NoSource0-md5:	efb79ba98510934bdb4836488b890dd3
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
@@ -89,15 +89,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_google_data_path}/resources
 %{_google_data_path}/resources/*.png
 %{_google_data_path}/resources/*.jpg
-%lang(de) %{_google_data_path}/resources/de_DE.locale
+%lang(de) %{_google_data_path}/resources/de.locale
 %lang(en_AU) %{_google_data_path}/resources/en_AU.locale
 %lang(en_CA) %{_google_data_path}/resources/en_CA.locale
 %lang(en_NZ) %{_google_data_path}/resources/en_NZ.locale
-%lang(en_GB) %{_google_data_path}/resources/en_UK.locale
-%lang(en_US) %{_google_data_path}/resources/en_US.locale
-%lang(es) %{_google_data_path}/resources/es_ES.locale
-%lang(fr) %{_google_data_path}/resources/fr_FR.locale
-%lang(it) %{_google_data_path}/resources/it_IT.locale
+%lang(en_GB) %{_google_data_path}/resources/en_GB.locale
+%lang(en_US) %{_google_data_path}/resources/en.locale
+%lang(es) %{_google_data_path}/resources/es.locale
+%lang(fr) %{_google_data_path}/resources/fr.locale
+%lang(it) %{_google_data_path}/resources/it.locale
 %dir %{_google_data_path}/xml
 %{_google_data_path}/xml/*.xml
 %{_desktopdir}/*.desktop
