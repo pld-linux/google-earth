@@ -90,11 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_google_data_path}/resources/*.png
 %{_google_data_path}/resources/*.jpg
 %lang(de) %{_google_data_path}/resources/de.locale
+%lang(en) %{_google_data_path}/resources/en.locale
 %lang(en_AU) %{_google_data_path}/resources/en_AU.locale
 %lang(en_CA) %{_google_data_path}/resources/en_CA.locale
-%lang(en_NZ) %{_google_data_path}/resources/en_NZ.locale
 %lang(en_GB) %{_google_data_path}/resources/en_GB.locale
-%lang(en_US) %{_google_data_path}/resources/en.locale
+%lang(en_NZ) %{_google_data_path}/resources/en_NZ.locale
 %lang(es) %{_google_data_path}/resources/es.locale
 %lang(fr) %{_google_data_path}/resources/fr.locale
 %lang(it) %{_google_data_path}/resources/it.locale
