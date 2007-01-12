@@ -84,9 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_google_data_path}/kvw/*.kvw
 %dir %{_google_data_path}/lang
 %{_google_data_path}/lang/*.qm
-%dir %{_google_data_path}/res
-%{_google_data_path}/res/pal*
-%{_google_data_path}/res/*.png
+%{_google_data_path}/res
 %dir %{_google_data_path}/resources
 %{_google_data_path}/resources/*.png
 %{_google_data_path}/resources/*.jpg
