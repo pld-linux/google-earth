@@ -4,7 +4,7 @@
 # - mark national resources as lang
 #
 Summary:	Google Earth - 3D planet viewer
-Summary(pl.UTF-8):   Google Earth - globus
+Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
 Release:	0.2723.0
