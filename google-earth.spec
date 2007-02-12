@@ -4,7 +4,7 @@
 # - mark national resources as lang
 #
 Summary:	Google Earth - 3D planet viewer
-Summary(pl):	Google Earth - globus
+Summary(pl.UTF-8):   Google Earth - globus
 Name:		GoogleEarth
 Version:	4
 Release:	0.2723.0
@@ -28,10 +28,10 @@ information right on your desktop. View exotic locales like Maui and
 Paris as well as points of interest such as local restaurants,
 hospitals, schools, and more.
 
-%description -l pl
-Google Earth pokazuje obrazy Ziemi oraz informacje geograficzne. Moøna
-obejrzeÊ tak egzotyczne lokalizacje jak Maui czy Paryø, jak rÛwnieø
-miejsca typu restauracje, szpitale, szko≥y i inne.
+%description -l pl.UTF-8
+Google Earth pokazuje obrazy Ziemi oraz informacje geograficzne. Mo≈ºna
+obejrzeƒá tak egzotyczne lokalizacje jak Maui czy Pary≈º, jak r√≥wnie≈º
+miejsca typu restauracje, szpitale, szko≈Çy i inne.
 
 %prep
 %setup -q -T -c
