@@ -7,20 +7,23 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
-Release:	0.2723.0
+Release:	0.2735.0
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/GE%{version}/%{name}Linux.bin
-# NoSource0-md5:	0a97dfa4b22d561799a0131822293fad
+# NoSource0-md5:	3a4051c185afc719bf807a4a693c44b0
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
-Requires:	curl-libs
-Requires:	openssl
 ExclusiveArch:	i586 i686 pentium3 pentium4 athlon
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_google_data_path	%{_libdir}/%{name}
+%define		_noautoprov		^\\./ ^libGLU\\.so ^libcrypto\\.so \
+	^libcurl\\.so ^libfreeimage\\.so ^libgcc_s\\.so ^libjpeg\\.so \
+	^libmng\\.so ^libpng12\\.so ^libqt-mt\\.so ^libqui\\.so ^libssl\\.so \
+	^libstdc++\\.so ^libtiff\\.so ^libz\\.so
+%define		_noautoreq		%{_noautoprov}
 
 %description
 Google Earth puts a planet's worth of imagery and other geographic
