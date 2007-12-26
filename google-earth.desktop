@@ -1,11 +1,14 @@
 [Desktop Entry]
 Name=Google Earth
 GenericName=3D planet viewer
+GenericName[pl]=Przeglądarka planety w 3D
 Comment=Explore, search and discover the planet
+Comment[pl]=Eksploracja, przeszukiwanie i odkrywanie planety
 Exec=googleearth %f
 Terminal=false
 MultipleArgs=false
 Type=Application
 Icon=googleearth-icon
-Categories=Application;Network;
+Categories=Network;
 MimeType=application/vnd.google-earth.kml+xml;application/vnd.google-earth.kmz;application/earthviewer;application/keyhole;
+# vi:encoding=utf-8
