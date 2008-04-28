@@ -7,16 +7,17 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
-Release:	2.205.5730
+Release:	3.7191.6508
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	789f438a999dfb157dc89eaa90388ac4
+# NoSource0-md5:	0149222022b15934d69ac56d7fcef180
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
 Suggests:	fonts-TTF-bitstream-vera
-ExclusiveArch:	i586 i686 pentium3 pentium4 athlon
+ExclusiveArch:	%{ix86}
+Requires:	cpuinfo(sse2)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_google_data_path	%{_libdir}/%{name}
@@ -71,7 +72,7 @@ install *.ini $RPM_BUILD_ROOT%{_google_data_path}
 #install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
 install lib* $RPM_BUILD_ROOT%{_google_data_path}
 
-cp -R kvw xml lang res resources $RPM_BUILD_ROOT%{_google_data_path}
+cp -R kvw xml lang resources $RPM_BUILD_ROOT%{_google_data_path}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,16 +89,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_google_data_path}/kvw/*.kvw
 %dir %{_google_data_path}/lang
 %{_google_data_path}/lang/*.qm
-%{_google_data_path}/res
 %dir %{_google_data_path}/resources
 %{_google_data_path}/resources/*.png
 %{_google_data_path}/resources/*.jpg
 %{_google_data_path}/resources/*.country
-%{_google_data_path}/resources/default_myplaces.kml
+%{_google_data_path}/resources/*.kml
 %{_google_data_path}/resources/flightsim
 %{_google_data_path}/resources/paddle
 %{_google_data_path}/resources/pushpin
 %{_google_data_path}/resources/shapes
+%lang(ar) %{_google_data_path}/resources/ar.locale
 %lang(de) %{_google_data_path}/resources/de.locale
 %lang(en) %{_google_data_path}/resources/en.locale
 %lang(en_AU) %{_google_data_path}/resources/en_AU.locale
@@ -112,7 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_google_data_path}/resources/ja.locale
 %lang(ko) %{_google_data_path}/resources/ko.locale
 %lang(ru) %{_google_data_path}/resources/ru.locale
-%lang(zh) %{_google_data_path}/resources/zh-Hant.locale
+%lang(zh) %{_google_data_path}/resources/zh-Hans.locale
+%lang(zh_TW) %{_google_data_path}/resources/zh-Hant.locale
 %dir %{_google_data_path}/xml
 %{_google_data_path}/xml/*.xml
 %{_desktopdir}/*.desktop
