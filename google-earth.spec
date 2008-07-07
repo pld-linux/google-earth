@@ -11,7 +11,7 @@ Release:	3.7191.6508
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	0149222022b15934d69ac56d7fcef180
+# NoSource0-md5:	c555ce84015f28180253947696506c1d
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
