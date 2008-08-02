@@ -7,11 +7,11 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
 Version:	4
-Release:	3.7191.6508
+Release:	3.7284.3916
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	c555ce84015f28180253947696506c1d
+# NoSource0-md5:	8e9eb1acc7ee4c80542756386de1bf78
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
