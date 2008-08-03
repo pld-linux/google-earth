@@ -22,9 +22,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_google_data_path	%{_libdir}/%{name}
 %define		_noautoprov		^\\./ ^libGLU\\.so ^libcrypto\\.so \
-	^libcurl\\.so ^libfreeimage\\.so ^libgcc_s\\.so ^libjpeg\\.so \
-	^libmng\\.so ^libpng12\\.so ^libqt-mt\\.so ^libqui\\.so ^libssl\\.so \
-	^libstdc++\\.so ^libtiff\\.so ^libz\\.so
+	^libcurl\\.so ^libicudata\\.so ^libicuuc\\.so ^libfreeimage\\.so \
+	^libgcc_s\\.so ^libjpeg\\.so ^libmng\\.so ^libpng12\\.so \
+	^libqt-mt\\.so ^libqui\\.so ^libssl\\.so ^libstdc++\\.so \
+	^libtiff\\.so ^libz\\.so
 %define		_noautoreq		%{_noautoprov}
 
 %description
