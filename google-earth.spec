@@ -73,7 +73,7 @@ install *.ini $RPM_BUILD_ROOT%{_google_data_path}
 #install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
 install lib* $RPM_BUILD_ROOT%{_google_data_path}
 
-cp -R kvw xml lang resources $RPM_BUILD_ROOT%{_google_data_path}
+cp -R kvw xml lang plugins resources shaders $RPM_BUILD_ROOT%{_google_data_path}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +86,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_google_data_path}/*.ini
 %attr(755,root,root) %{_google_data_path}/googleearth-bin
 %attr(755,root,root) %{_google_data_path}/*.so*
+%dir %{_google_data_path}/plugins
+%dir %{_google_data_path}/plugins/imageformats
+%attr(755,root,root) %{_google_data_path}/plugins/imageformats/*.so*
+%dir %{_google_data_path}/shaders
+%{_google_data_path}/shaders/*
+
 %dir %{_google_data_path}/kvw
 %{_google_data_path}/kvw/*.kvw
 %dir %{_google_data_path}/lang
