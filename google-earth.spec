@@ -7,11 +7,11 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
 Version:	5
-Release:	0.11733.9347
+Release:	1.3509.4636
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	a6bde31a22b8cc5f0b170cd21dd404e1
+# NoSource0-md5:	ec0491757d3627cd3981f390b093596b
 NoSource:	0
 Source1:	%{name}.desktop
 URL:		http://earth.google.com/
@@ -73,7 +73,7 @@ install *.ini $RPM_BUILD_ROOT%{_google_data_path}
 #install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
 install lib* $RPM_BUILD_ROOT%{_google_data_path}
 
-cp -R kvw xml lang plugins resources shaders $RPM_BUILD_ROOT%{_google_data_path}
+cp -R lang plugins resources shaders $RPM_BUILD_ROOT%{_google_data_path}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -92,8 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_google_data_path}/shaders
 %{_google_data_path}/shaders/*
 
-%dir %{_google_data_path}/kvw
-%{_google_data_path}/kvw/*.kvw
 %dir %{_google_data_path}/lang
 %{_google_data_path}/lang/*.qm
 %dir %{_google_data_path}/resources
@@ -101,28 +99,51 @@ rm -rf $RPM_BUILD_ROOT
 #%{_google_data_path}/resources/*.jpg
 %{_google_data_path}/resources/*.country
 %{_google_data_path}/resources/*.kml
+%{_google_data_path}/resources/*.rcc
+%{_google_data_path}/resources/doppler.txt
 %{_google_data_path}/resources/flightsim
 %{_google_data_path}/resources/paddle
 %{_google_data_path}/resources/pushpin
 %{_google_data_path}/resources/shapes
 %lang(ar) %{_google_data_path}/resources/ar.locale
+%lang(bg) %{_google_data_path}/resources/bg.locale
+%lang(ca) %{_google_data_path}/resources/ca.locale
+%lang(cs) %{_google_data_path}/resources/cs.locale
+%lang(da) %{_google_data_path}/resources/da.locale
 %lang(de) %{_google_data_path}/resources/de.locale
+%lang(el) %{_google_data_path}/resources/el.locale
+%lang(es) %{_google_data_path}/resources/es-419.locale
 %lang(en) %{_google_data_path}/resources/en.locale
-%lang(en_AU) %{_google_data_path}/resources/en_AU.locale
-%lang(en_CA) %{_google_data_path}/resources/en_CA.locale
-%lang(en_GB) %{_google_data_path}/resources/en_GB.locale
-%lang(en_NZ) %{_google_data_path}/resources/en_NZ.locale
-%lang(en_US) %{_google_data_path}/resources/en_US.locale
 %lang(es) %{_google_data_path}/resources/es.locale
+%lang(fi) %{_google_data_path}/resources/fi.locale
+%lang(fil) %{_google_data_path}/resources/fil.locale
 %lang(fr) %{_google_data_path}/resources/fr.locale
 %lang(he) %{_google_data_path}/resources/he.locale
+%lang(hi) %{_google_data_path}/resources/hi.locale
+%lang(hr) %{_google_data_path}/resources/hr.locale
+%lang(hu) %{_google_data_path}/resources/hu.locale
+%lang(id) %{_google_data_path}/resources/id.locale
 %lang(it) %{_google_data_path}/resources/it.locale
 %lang(ja) %{_google_data_path}/resources/ja.locale
 %lang(ko) %{_google_data_path}/resources/ko.locale
+%lang(lt) %{_google_data_path}/resources/lt.locale
+%lang(lv) %{_google_data_path}/resources/lv.locale
+%lang(nl) %{_google_data_path}/resources/nl.locale
+%lang(no) %{_google_data_path}/resources/no.locale
+%lang(pl) %{_google_data_path}/resources/pl.locale
+%lang(pt) %{_google_data_path}/resources/pt.locale
+%lang(pt_PT) %{_google_data_path}/resources/pt-PT.locale
+%lang(ro) %{_google_data_path}/resources/ro.locale
 %lang(ru) %{_google_data_path}/resources/ru.locale
+%lang(sk) %{_google_data_path}/resources/sk.locale
+%lang(sl) %{_google_data_path}/resources/sl.locale
+%lang(sr) %{_google_data_path}/resources/sr.locale
+%lang(sv) %{_google_data_path}/resources/sv.locale
+%lang(th) %{_google_data_path}/resources/th.locale
+%lang(tr) %{_google_data_path}/resources/tr.locale
+%lang(uk) %{_google_data_path}/resources/uk.locale
+%lang(vi) %{_google_data_path}/resources/vi.locale
 %lang(zh) %{_google_data_path}/resources/zh-Hans.locale
 %lang(zh_TW) %{_google_data_path}/resources/zh-Hant.locale
-%dir %{_google_data_path}/xml
-%{_google_data_path}/xml/*.xml
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*.png
