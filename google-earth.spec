@@ -14,6 +14,7 @@ Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
 # NoSource0-md5:	ec0491757d3627cd3981f390b093596b
 NoSource:	0
 Source1:	%{name}.desktop
+Patch0:		%{name}-decimal_separator.patch
 URL:		http://earth.google.com/
 Suggests:	fonts-TTF-bitstream-vera
 ExclusiveArch:	%{ix86}
@@ -47,6 +48,8 @@ tail -n +377 %{SOURCE0} > %{name}-%{version}.tar.bz2
 tar -jxvf %{name}-%{version}.tar.bz2
 tar -xvf googleearth-linux-x86.tar
 tar -xvf googleearth-data.tar
+
+%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
