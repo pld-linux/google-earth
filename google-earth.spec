@@ -1,17 +1,18 @@
-#
 # TODO:
 # - move configs to /etc
 # - mark national resources as lang
 #
+%define		buildid	3533.1731
+%define		rel		0.1
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
-Version:	5
-Release:	1.3509.4636
+Version:	5.1
+Release:	%{buildid}.%{rel}
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	ec0491757d3627cd3981f390b093596b
+# NoSource0-md5:	2d60578f4a2e56990a053faa8b30537f
 NoSource:	0
 Source1:	%{name}.desktop
 Patch0:		%{name}-decimal_separator.patch
@@ -21,7 +22,7 @@ ExclusiveArch:	%{ix86}
 Requires:	cpuinfo(sse2)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_google_data_path	%{_libdir}/%{name}
+%define		_appdir		%{_libdir}/%{name}
 %define		_noautoprov		^\\./ ^libGLU\\.so ^libcrypto\\.so \
 	^libcurl\\.so ^libicudata\\.so ^libicuuc\\.so ^libfreeimage\\.so \
 	^libgcc_s\\.so ^libjpeg\\.so ^libmng\\.so ^libpng12\\.so \
@@ -41,42 +42,47 @@ obejrzeć tak egzotyczne lokalizacje jak Maui czy Paryż, jak również
 miejsca typu restauracje, szpitale, szkoły i inne.
 
 %prep
-%setup -q -T -c
+%setup -qcT
 head -n 376 %{SOURCE0} > %{name}-%{version}.sh
 tail -n +377 %{SOURCE0} > %{name}-%{version}.tar.bz2
 
-tar -jxvf %{name}-%{version}.tar.bz2
-tar -xvf googleearth-linux-x86.tar
-tar -xvf googleearth-data.tar
+tar jxvf %{name}-%{version}.tar.bz2
+tar xvf googleearth-linux-x86.tar
+tar xvf googleearth-data.tar
 
 %patch0 -p1
 
+ver=$(awk '/Google Earth version/{print $NF}' README.linux)
+if [ "$ver" != %{version}.%{buildid}-1 ]; then
+	exit 1
+fi
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_google_data_path}} \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_appdir}} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
-sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="%{_google_data_path}"
+sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="%{_appdir}"
 5,40d' bin/googleearth > $RPM_BUILD_ROOT%{_bindir}/googleearth
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install googleearth-icon.png $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -a googleearth-icon.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
-install googleearth-bin $RPM_BUILD_ROOT%{_google_data_path}
+install -p googleearth-bin $RPM_BUILD_ROOT%{_appdir}
 # It should be located in /etc and marked as config
-install *.ini $RPM_BUILD_ROOT%{_google_data_path}
+cp -a *.ini $RPM_BUILD_ROOT%{_appdir}
 
 # Some libraries:
 #install libcomponent.so libfusion.so libgeobase.so libmath.so \
 #	libwmsbase.so libnet.so libcollada.so libbase.so libgoogleearth.so \
-#	$RPM_BUILD_ROOT%{_google_data_path}
+#	$RPM_BUILD_ROOT%{_appdir}
 #install lib{IGAttrs,IGCollision,IGCore,IGDisplay,IGExportCommon,IGGfx,IGGui,IGMath,IGOpt,IGSg,IGUtils,auth,common,framework,render,evll}.so \
 #	lib{navigate,layer,measure,gps,basicIngest,googlesearch}.so \
-#	$RPM_BUILD_ROOT%{_google_data_path}
+#	$RPM_BUILD_ROOT%{_appdir}
 #install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
-install lib* $RPM_BUILD_ROOT%{_google_data_path}
+install -p lib* $RPM_BUILD_ROOT%{_appdir}
 
-cp -R lang plugins resources shaders $RPM_BUILD_ROOT%{_google_data_path}
+cp -a lang plugins resources shaders $RPM_BUILD_ROOT%{_appdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,68 +91,68 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.linux
 %attr(755,root,root) %{_bindir}/*
-%dir %{_google_data_path}
-%{_google_data_path}/*.ini
-%attr(755,root,root) %{_google_data_path}/googleearth-bin
-%attr(755,root,root) %{_google_data_path}/*.so*
-%dir %{_google_data_path}/plugins
-%dir %{_google_data_path}/plugins/imageformats
-%attr(755,root,root) %{_google_data_path}/plugins/imageformats/*.so*
-%dir %{_google_data_path}/shaders
-%{_google_data_path}/shaders/*
+%dir %{_appdir}
+%{_appdir}/*.ini
+%attr(755,root,root) %{_appdir}/googleearth-bin
+%attr(755,root,root) %{_appdir}/*.so*
+%dir %{_appdir}/plugins
+%dir %{_appdir}/plugins/imageformats
+%attr(755,root,root) %{_appdir}/plugins/imageformats/*.so*
+%dir %{_appdir}/shaders
+%{_appdir}/shaders/*
 
-%dir %{_google_data_path}/lang
-%{_google_data_path}/lang/*.qm
-%dir %{_google_data_path}/resources
-%{_google_data_path}/resources/*.png
-#%{_google_data_path}/resources/*.jpg
-%{_google_data_path}/resources/*.country
-%{_google_data_path}/resources/*.kml
-%{_google_data_path}/resources/*.rcc
-%{_google_data_path}/resources/doppler.txt
-%{_google_data_path}/resources/flightsim
-%{_google_data_path}/resources/paddle
-%{_google_data_path}/resources/pushpin
-%{_google_data_path}/resources/shapes
-%lang(ar) %{_google_data_path}/resources/ar.locale
-%lang(bg) %{_google_data_path}/resources/bg.locale
-%lang(ca) %{_google_data_path}/resources/ca.locale
-%lang(cs) %{_google_data_path}/resources/cs.locale
-%lang(da) %{_google_data_path}/resources/da.locale
-%lang(de) %{_google_data_path}/resources/de.locale
-%lang(el) %{_google_data_path}/resources/el.locale
-%lang(es) %{_google_data_path}/resources/es-419.locale
-%lang(en) %{_google_data_path}/resources/en.locale
-%lang(es) %{_google_data_path}/resources/es.locale
-%lang(fi) %{_google_data_path}/resources/fi.locale
-%lang(fil) %{_google_data_path}/resources/fil.locale
-%lang(fr) %{_google_data_path}/resources/fr.locale
-%lang(he) %{_google_data_path}/resources/he.locale
-%lang(hi) %{_google_data_path}/resources/hi.locale
-%lang(hr) %{_google_data_path}/resources/hr.locale
-%lang(hu) %{_google_data_path}/resources/hu.locale
-%lang(id) %{_google_data_path}/resources/id.locale
-%lang(it) %{_google_data_path}/resources/it.locale
-%lang(ja) %{_google_data_path}/resources/ja.locale
-%lang(ko) %{_google_data_path}/resources/ko.locale
-%lang(lt) %{_google_data_path}/resources/lt.locale
-%lang(lv) %{_google_data_path}/resources/lv.locale
-%lang(nl) %{_google_data_path}/resources/nl.locale
-%lang(no) %{_google_data_path}/resources/no.locale
-%lang(pl) %{_google_data_path}/resources/pl.locale
-%lang(pt) %{_google_data_path}/resources/pt.locale
-%lang(pt_PT) %{_google_data_path}/resources/pt-PT.locale
-%lang(ro) %{_google_data_path}/resources/ro.locale
-%lang(ru) %{_google_data_path}/resources/ru.locale
-%lang(sk) %{_google_data_path}/resources/sk.locale
-%lang(sl) %{_google_data_path}/resources/sl.locale
-%lang(sr) %{_google_data_path}/resources/sr.locale
-%lang(sv) %{_google_data_path}/resources/sv.locale
-%lang(th) %{_google_data_path}/resources/th.locale
-%lang(tr) %{_google_data_path}/resources/tr.locale
-%lang(uk) %{_google_data_path}/resources/uk.locale
-%lang(vi) %{_google_data_path}/resources/vi.locale
-%lang(zh) %{_google_data_path}/resources/zh-Hans.locale
-%lang(zh_TW) %{_google_data_path}/resources/zh-Hant.locale
+%dir %{_appdir}/lang
+%{_appdir}/lang/*.qm
+%dir %{_appdir}/resources
+%{_appdir}/resources/*.png
+#%{_appdir}/resources/*.jpg
+%{_appdir}/resources/*.country
+%{_appdir}/resources/*.kml
+%{_appdir}/resources/*.rcc
+%{_appdir}/resources/doppler.txt
+%{_appdir}/resources/flightsim
+%{_appdir}/resources/paddle
+%{_appdir}/resources/pushpin
+%{_appdir}/resources/shapes
+%lang(ar) %{_appdir}/resources/ar.locale
+%lang(bg) %{_appdir}/resources/bg.locale
+%lang(ca) %{_appdir}/resources/ca.locale
+%lang(cs) %{_appdir}/resources/cs.locale
+%lang(da) %{_appdir}/resources/da.locale
+%lang(de) %{_appdir}/resources/de.locale
+%lang(el) %{_appdir}/resources/el.locale
+%lang(es) %{_appdir}/resources/es-419.locale
+%lang(en) %{_appdir}/resources/en.locale
+%lang(es) %{_appdir}/resources/es.locale
+%lang(fi) %{_appdir}/resources/fi.locale
+%lang(fil) %{_appdir}/resources/fil.locale
+%lang(fr) %{_appdir}/resources/fr.locale
+%lang(he) %{_appdir}/resources/he.locale
+%lang(hi) %{_appdir}/resources/hi.locale
+%lang(hr) %{_appdir}/resources/hr.locale
+%lang(hu) %{_appdir}/resources/hu.locale
+%lang(id) %{_appdir}/resources/id.locale
+%lang(it) %{_appdir}/resources/it.locale
+%lang(ja) %{_appdir}/resources/ja.locale
+%lang(ko) %{_appdir}/resources/ko.locale
+%lang(lt) %{_appdir}/resources/lt.locale
+%lang(lv) %{_appdir}/resources/lv.locale
+%lang(nl) %{_appdir}/resources/nl.locale
+%lang(no) %{_appdir}/resources/no.locale
+%lang(pl) %{_appdir}/resources/pl.locale
+%lang(pt) %{_appdir}/resources/pt.locale
+%lang(pt_PT) %{_appdir}/resources/pt-PT.locale
+%lang(ro) %{_appdir}/resources/ro.locale
+%lang(ru) %{_appdir}/resources/ru.locale
+%lang(sk) %{_appdir}/resources/sk.locale
+%lang(sl) %{_appdir}/resources/sl.locale
+%lang(sr) %{_appdir}/resources/sr.locale
+%lang(sv) %{_appdir}/resources/sv.locale
+%lang(th) %{_appdir}/resources/th.locale
+%lang(tr) %{_appdir}/resources/tr.locale
+%lang(uk) %{_appdir}/resources/uk.locale
+%lang(vi) %{_appdir}/resources/vi.locale
+%lang(zh) %{_appdir}/resources/zh-Hans.locale
+%lang(zh_TW) %{_appdir}/resources/zh-Hant.locale
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/*.png
