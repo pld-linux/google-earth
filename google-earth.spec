@@ -3,7 +3,7 @@
 # - mark national resources as lang
 #
 %define		buildid	3533.1731
-%define		rel		0.1
+%define		rel		0.2
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
@@ -102,10 +102,49 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/shaders/*
 
 %dir %{_appdir}/lang
-%{_appdir}/lang/*.qm
+%lang(ar) %{_appdir}/lang/ar.qm
+%lang(bg) %{_appdir}/lang/bg.qm
+%lang(ca) %{_appdir}/lang/ca.qm
+%lang(cs) %{_appdir}/lang/cs.qm
+%lang(da) %{_appdir}/lang/da.qm
+%lang(de) %{_appdir}/lang/de.qm
+%lang(el) %{_appdir}/lang/el.qm
+%lang(en) %{_appdir}/lang/en.qm
+%lang(es) %{_appdir}/lang/es-419.qm
+%lang(es) %{_appdir}/lang/es.qm
+%lang(fi) {_appdir}/lang/fi.qm
+%lang(fil) %{_appdir}/lang/fil.qm
+%lang(fr) %{_appdir}/lang/fr.qm
+%lang(he) %{_appdir}/lang/he.qm
+%lang(hi) %{_appdir}/lang/hi.qm
+%lang(hr) %{_appdir}/lang/hr.qm
+%lang(hu) %{_appdir}/lang/hu.qm
+%lang(id) %{_appdir}/lang/id.qm
+%lang(it) %{_appdir}/lang/it.qm
+%lang(ja) %{_appdir}/lang/ja.qm
+%lang(ko) %{_appdir}/lang/ko.qm
+%lang(lt) %{_appdir}/lang/lt.qm
+%lang(lv) %{_appdir}/lang/lv.qm
+%lang(nl) %{_appdir}/lang/nl.qm
+%lang(no) %{_appdir}/lang/no.qm
+%lang(pl) %{_appdir}/lang/pl.qm
+%lang(pt) %{_appdir}/lang/pt-PT.qm
+%lang(pt) {_appdir}/lang/pt.qm
+%lang(ro) %{_appdir}/lang/ro.qm
+%lang(ru) %{_appdir}/lang/ru.qm
+%lang(sk) %{_appdir}/lang/sk.qm
+%lang(sl) %{_appdir}/lang/sl.qm
+%lang(sr) %{_appdir}/lang/sr.qm
+%lang(sv) %{_appdir}/lang/sv.qm
+%lang(th) %{_appdir}/lang/th.qm
+%lang(tr) %{_appdir}/lang/tr.qm
+%lang(uk) %{_appdir}/lang/uk.qm
+%lang(vi) %{_appdir}/lang/vi.qm
+%lang(zh) %{_appdir}/lang/zh-Hans.qm
+%lang(zh_TW) %{_appdir}/lang/zh-Hant.qm
+
 %dir %{_appdir}/resources
 %{_appdir}/resources/*.png
-#%{_appdir}/resources/*.jpg
 %{_appdir}/resources/*.country
 %{_appdir}/resources/*.kml
 %{_appdir}/resources/*.rcc
