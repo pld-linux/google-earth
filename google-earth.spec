@@ -3,7 +3,7 @@
 # - mark national resources as lang
 
 %define		buildid	1.1547
-%define		rel		0.1
+%define		rel		0.2
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
@@ -23,11 +23,17 @@ Requires:	cpuinfo(sse2)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir		%{_libdir}/%{name}
-%define		_noautoprov		^\\./ ^libGLU\\.so ^libcrypto\\.so \
-	^libcurl\\.so ^libicudata\\.so ^libicuuc\\.so ^libfreeimage\\.so \
-	^libgcc_s\\.so ^libjpeg\\.so ^libmng\\.so ^libpng12\\.so \
-	^libqt-mt\\.so ^libqui\\.so ^libssl\\.so ^libstdc++\\.so \
-	^libtiff\\.so ^libz\\.so
+
+# Mesa-libGLU
+%define		mesa_caps		libGLU.so
+# QtCore, QtGui, QtNetwork, QtWebKit
+%define		qt4_caps		libQtCore.so libQtGui.so libQtNetwork.so libQtWebKit.so
+# curl-libs
+%define		curl_caps		libcurl.so
+# libicu
+%define		icu_caps		libicudata.so libicuuc.so
+
+%define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps}
 %define		_noautoreq		%{_noautoprov}
 
 %description
@@ -73,14 +79,6 @@ install -p googleearth-bin $RPM_BUILD_ROOT%{_appdir}
 # It should be located in /etc and marked as config
 cp -a *.ini $RPM_BUILD_ROOT%{_appdir}
 
-# Some libraries:
-#install libcomponent.so libfusion.so libgeobase.so libmath.so \
-#	libwmsbase.so libnet.so libcollada.so libbase.so libgoogleearth.so \
-#	$RPM_BUILD_ROOT%{_appdir}
-#install lib{IGAttrs,IGCollision,IGCore,IGDisplay,IGExportCommon,IGGfx,IGGui,IGMath,IGOpt,IGSg,IGUtils,auth,common,framework,render,evll}.so \
-#	lib{navigate,layer,measure,gps,basicIngest,googlesearch}.so \
-#	$RPM_BUILD_ROOT%{_appdir}
-#install lib{freeimage.so.3,{crypto,ssl}.so.0.9.8} $RPM_BUILD_ROOT%{_libdir}
 install -p lib* $RPM_BUILD_ROOT%{_appdir}
 
 cp -a lang plugins resources shaders $RPM_BUILD_ROOT%{_appdir}
