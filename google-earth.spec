@@ -1,18 +1,18 @@
 # TODO:
 # - move configs to /etc
 # - mark national resources as lang
-#
-%define		buildid	3533.1731
-%define		rel		0.2
+
+%define		buildid	1.1547
+%define		rel		0.1
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
-Version:	5.1
+Version:	5.2
 Release:	%{buildid}.%{rel}
 License:	non distributable - EULA?
 Group:		Applications/Graphics
 Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	2d60578f4a2e56990a053faa8b30537f
+# NoSource0-md5:	3d6cc89e17daa361f6087ea495d06a84
 NoSource:	0
 Source1:	%{name}.desktop
 Patch0:		%{name}-decimal_separator.patch
@@ -52,6 +52,7 @@ tar xvf googleearth-data.tar
 
 %patch0 -p1
 
+%build
 ver=$(awk '/Google Earth version/{print $NF}' README.linux)
 if [ "$ver" != %{version}.%{buildid}-1 ]; then
 	exit 1
@@ -112,7 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_appdir}/lang/en.qm
 %lang(es) %{_appdir}/lang/es-419.qm
 %lang(es) %{_appdir}/lang/es.qm
-%lang(fi) {_appdir}/lang/fi.qm
+%lang(fa) %{_appdir}/lang/fa.qm
+%lang(fi) %{_appdir}/lang/fi.qm
 %lang(fil) %{_appdir}/lang/fil.qm
 %lang(fr) %{_appdir}/lang/fr.qm
 %lang(he) %{_appdir}/lang/he.qm
@@ -129,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(no) %{_appdir}/lang/no.qm
 %lang(pl) %{_appdir}/lang/pl.qm
 %lang(pt) %{_appdir}/lang/pt-PT.qm
-%lang(pt) {_appdir}/lang/pt.qm
+%lang(pt) %{_appdir}/lang/pt.qm
 %lang(ro) %{_appdir}/lang/ro.qm
 %lang(ru) %{_appdir}/lang/ru.qm
 %lang(sk) %{_appdir}/lang/sk.qm
@@ -141,6 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(uk) %{_appdir}/lang/uk.qm
 %lang(vi) %{_appdir}/lang/vi.qm
 %lang(zh) %{_appdir}/lang/zh-Hans.qm
+%lang(zh_HK) %{_appdir}/lang/zh-Hant-HK.qm
 %lang(zh_TW) %{_appdir}/lang/zh-Hant.qm
 
 %dir %{_appdir}/resources
