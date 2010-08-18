@@ -3,7 +3,7 @@
 # - mark national resources as lang
 
 %define		buildid	1.1547
-%define		rel		0.2
+%define		rel		0.3
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		GoogleEarth
@@ -24,6 +24,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir		%{_libdir}/%{name}
 
+# Qt4 plugins
+%define		_noautoprovfiles	%{_libdir}/%{name}/plugins/imageformats
 # Mesa-libGLU
 %define		mesa_caps		libGLU.so
 # QtCore, QtGui, QtNetwork, QtWebKit
@@ -32,8 +34,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		curl_caps		libcurl.so
 # libicu
 %define		icu_caps		libicudata.so libicuuc.so
+# nss_mdns
+%define		mdns_caps		libnss_mdns4_minimal.so.2
+# proj
+%define		proj_caps		libproj.so.0
 
-%define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps}
+%define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps} %{mdns_caps} %{proj_caps}
 %define		_noautoreq		%{_noautoprov}
 
 %description
