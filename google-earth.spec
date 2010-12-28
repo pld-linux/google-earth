@@ -1,25 +1,30 @@
 # TODO:
 # - move configs to /etc
 # - mark national resources as lang
-
-%define		buildid	1.1547
-%define		rel		0.3
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
-Name:		GoogleEarth
-Version:	5.2
-Release:	%{buildid}.%{rel}
-License:	non distributable - EULA?
+Name:		google-earth
+Version:	6.0.1.2032
+Release:	0.1
+License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
-Source0:	http://dl.google.com/earth/client/current/%{name}Linux.bin
-# NoSource0-md5:	3d6cc89e17daa361f6087ea495d06a84
+Obsoletes:	GoogleEarth
+Source0:	http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.i386.rpm
+# NoSource0-md5:	8a2e05df9bce98cc32f50e7c2da9dd60
 NoSource:	0
-Source1:	%{name}.desktop
-Patch0:		%{name}-decimal_separator.patch
-URL:		http://earth.google.com/
-Suggests:	fonts-TTF-bitstream-vera
-ExclusiveArch:	%{ix86}
+Source1:	http://dl.google.com/linux/earth/rpm/stable/x86_64/%{name}-stable-%{version}-0.x86_64.rpm
+# NoSource1-md5:	10169b3877d1fa815892d5ef96296d25
+NoSource:	1
+Source2:	%{name}.desktop
+Patch0:		decimal_separator.patch
+URL:		http://www.google.com/earth
+BuildRequires:	rpm-utils
+BuildRequires:	rpmbuild(macros) >= 1.596
+BuildRequires:	sed >= 4.0
 Requires:	cpuinfo(sse2)
+Requires:	hicolor-icon-theme
+Suggests:	fonts-TTF-bitstream-vera
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir		%{_libdir}/%{name}
@@ -42,6 +47,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps} %{mdns_caps} %{proj_caps}
 %define		_noautoreq		%{_noautoprov}
 
+%define		skip_post_check_so	libGLU.so.1
+
 %description
 Google Earth puts a planet's worth of imagery and other geographic
 information right on your desktop. View exotic locales like Maui and
@@ -55,50 +62,69 @@ miejsca typu restauracje, szpitale, szkoły i inne.
 
 %prep
 %setup -qcT
-head -n 376 %{SOURCE0} > %{name}-%{version}.sh
-tail -n +377 %{SOURCE0} > %{name}-%{version}.tar.bz2
+%ifarch %{ix86}
+SOURCE=%{S:0}
+%endif
+%ifarch %{x8664}
+SOURCE=%{S:1}
+%endif
 
-tar jxvf %{name}-%{version}.tar.bz2
-tar xvf googleearth-linux-x86.tar
-tar xvf googleearth-data.tar
+V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
+if [ "$V" != "%{version}" ]; then
+	exit 1
+fi
+rpm2cpio $SOURCE | cpio -i -d
+
+mv opt/google/earth/free lib
+# doc stuff
+mv lib/gpl.txt .
+
+# bin dir stuff
+rm lib/google-earth
+
+# isolate desktop stuff, we install them differently
+install -d desktop
+mv lib/product_logo_* desktop
+mv lib/google-earth.desktop desktop
+mv lib/xdg-* desktop
 
 %patch0 -p1
 
-%build
-ver=$(awk '/Google Earth version/{print $NF}' README.linux)
-if [ "$ver" != %{version}.%{buildid}-1 ]; then
-	exit 1
-fi
-
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_appdir}} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_appdir}}
 
-sed '/FindPath()/aGOOGLEEARTH_DATA_PATH="%{_appdir}"
-5,40d' bin/googleearth > $RPM_BUILD_ROOT%{_bindir}/googleearth
+cp -a lib/* $RPM_BUILD_ROOT%{_appdir}
+ln -s %{_appdir}/googleearth $RPM_BUILD_ROOT%{_bindir}/%{name}
 
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-cp -a googleearth-icon.png $RPM_BUILD_ROOT%{_pixmapsdir}
-
-install -p googleearth-bin $RPM_BUILD_ROOT%{_appdir}
-# It should be located in /etc and marked as config
-cp -a *.ini $RPM_BUILD_ROOT%{_appdir}
-
-install -p lib* $RPM_BUILD_ROOT%{_appdir}
-
-cp -a lang plugins resources shaders $RPM_BUILD_ROOT%{_appdir}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
+for icon in desktop/product_logo_*.png; do
+	size=${icon##*/product_logo_} size=${size%.png}
+	dir=$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}
+	install -d $dir
+	cp -a $icon $dir/%{name}.png
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_icon_cache hicolor
+
+%postun
+%update_icon_cache hicolor
+
 %files
 %defattr(644,root,root,755)
-%doc README.linux
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/google-earth
 %dir %{_appdir}
 %{_appdir}/*.ini
+%{_appdir}/qt.conf
+%{_appdir}/kh20
 %attr(755,root,root) %{_appdir}/googleearth-bin
+%attr(755,root,root) %{_appdir}/googleearth
+%attr(755,root,root) %{_appdir}/gpsbabel
 %attr(755,root,root) %{_appdir}/*.so*
 %dir %{_appdir}/plugins
 %dir %{_appdir}/plugins/imageformats
@@ -157,9 +183,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/resources/*.rcc
 %{_appdir}/resources/doppler.txt
 %{_appdir}/resources/flightsim
-%{_appdir}/resources/paddle
-%{_appdir}/resources/pushpin
-%{_appdir}/resources/shapes
 %lang(ar) %{_appdir}/resources/ar.locale
 %lang(bg) %{_appdir}/resources/bg.locale
 %lang(ca) %{_appdir}/resources/ca.locale
@@ -200,5 +223,5 @@ rm -rf $RPM_BUILD_ROOT
 %lang(vi) %{_appdir}/resources/vi.locale
 %lang(zh) %{_appdir}/resources/zh-Hans.locale
 %lang(zh_TW) %{_appdir}/resources/zh-Hant.locale
-%{_desktopdir}/*.desktop
-%{_pixmapsdir}/*.png
+%{_desktopdir}/google-earth.desktop
+%{_iconsdir}/hicolor/*/google-earth.png

@@ -1,17 +1,16 @@
-diff -ur GoogleEarth-5.vanilla/bin/googleearth GoogleEarth-5/bin/googleearth
---- GoogleEarth-5.vanilla/bin/googleearth	2009-09-18 00:28:01.000000000 +0200
-+++ GoogleEarth-5/bin/googleearth	2009-09-30 04:59:17.982224024 +0200
-@@ -46,6 +46,13 @@
- if [ -x "${GOOGLEEARTH_DATA_PATH}/googleearth-bin" ]
- then
- 	cd "${GOOGLEEARTH_DATA_PATH}/"
-+	# WARNING!
-+	#
-+	# This is a workaround for GoogleEarth bug. With some locales GE uses comma as
-+	# decimal separator while parsing KML files. It renders virtually all data
-+	# unusable. Ensure the LC_NUMERIC is set to US standard (dot-separated).
-+	#
-+	LC_NUMERIC="en_US"
- 	exec "./googleearth-bin" "$@"
- fi
- echo "Couldn't run Google Earth (googleearth-bin). Is GOOGLEEARTH_DATA_PATH set?"
+--- google-earth-6.0.1.2032/lib/googleearth~	2010-12-29 01:10:51.000000000 +0200
++++ google-earth-6.0.1.2032/lib/googleearth	2010-12-29 01:12:24.927165032 +0200
+@@ -40,4 +40,12 @@
+ 
+ cd $script_path;
+ 
+-LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH ./googleearth-bin "$@"
++# WARNING!
++#
++# This is a workaround for GoogleEarth bug. With some locales GE uses comma as
++# decimal separator while parsing KML files. It renders virtually all data
++# unusable. Ensure the LC_NUMERIC is set to US standard (dot-separated).
++#
++LC_NUMERIC="en_US"
++
++LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH exec ./googleearth-bin "$@"
