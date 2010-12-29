@@ -4,7 +4,7 @@ Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		google-earth
 Version:	6.0.1.2032
-Release:	0.2
+Release:	0.3
 License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
 Obsoletes:	GoogleEarth
@@ -105,7 +105,7 @@ install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}
 for icon in desktop/product_logo_*.png; do
 	size=${icon##*/product_logo_} size=${size%.png}
-	dir=$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}
+	dir=$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${size}x${size}/apps
 	install -d $dir
 	cp -a $icon $dir/%{name}.png
 done
@@ -228,4 +228,4 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh) %{_appdir}/resources/zh-Hans.locale
 %lang(zh_TW) %{_appdir}/resources/zh-Hant.locale
 %{_desktopdir}/google-earth.desktop
-%{_iconsdir}/hicolor/*/google-earth.png
+%{_iconsdir}/hicolor/*/apps/google-earth.png
