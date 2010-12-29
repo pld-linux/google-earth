@@ -1,11 +1,10 @@
 # TODO:
 # - move configs to /etc
-# - mark national resources as lang
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		google-earth
 Version:	6.0.1.2032
-Release:	0.1
+Release:	0.2
 License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
 Obsoletes:	GoogleEarth
@@ -23,6 +22,8 @@ BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	sed >= 4.0
 Requires:	cpuinfo(sse2)
 Requires:	hicolor-icon-theme
+# for /lib/ld-lsb.so.3
+Requires:	lsb-release >= 4.0
 Suggests:	fonts-TTF-bitstream-vera
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -86,7 +87,10 @@ rm lib/google-earth
 install -d desktop
 mv lib/product_logo_* desktop
 mv lib/google-earth.desktop desktop
-mv lib/xdg-* desktop
+
+# we place stuff already to proper dir by package
+rm lib/xdg-settings
+rm lib/xdg-mime
 
 %patch0 -p1
 
