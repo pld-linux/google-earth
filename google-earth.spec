@@ -11,9 +11,6 @@ Obsoletes:	GoogleEarth
 Source0:	http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.i386.rpm
 # NoSource0-md5:	8a2e05df9bce98cc32f50e7c2da9dd60
 NoSource:	0
-Source1:	http://dl.google.com/linux/earth/rpm/stable/x86_64/%{name}-stable-%{version}-0.x86_64.rpm
-# NoSource1-md5:	10169b3877d1fa815892d5ef96296d25
-NoSource:	1
 Source2:	%{name}.desktop
 Patch0:		decimal_separator.patch
 URL:		http://www.google.com/earth
@@ -25,7 +22,7 @@ Requires:	hicolor-icon-theme
 # for /lib/ld-lsb.so.3
 Requires:	lsb-release >= 4.0
 Suggests:	fonts-TTF-bitstream-vera
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir		%{_libdir}/%{name}
@@ -63,12 +60,7 @@ miejsca typu restauracje, szpitale, szkoły i inne.
 
 %prep
 %setup -qcT
-%ifarch %{ix86}
 SOURCE=%{S:0}
-%endif
-%ifarch %{x8664}
-SOURCE=%{S:1}
-%endif
 
 V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
 if [ "$V" != "%{version}" ]; then
