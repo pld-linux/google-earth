@@ -17,8 +17,9 @@ URL:		http://www.google.com/earth
 BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	sed >= 4.0
+Requires(post,postun):	gtk-update-icon-cache
+Requires(post,postun):	hicolor-icon-theme
 Requires:	cpuinfo(sse2)
-Requires:	hicolor-icon-theme
 # for /lib/ld-lsb.so.3
 Requires:	lsb-release >= 4.0
 Suggests:	fonts-TTF-bitstream-vera
