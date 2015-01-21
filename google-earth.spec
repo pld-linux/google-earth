@@ -3,14 +3,17 @@
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		google-earth
-Version:	6.0.1.2032
-Release:	0.3
+Version:	7.1.2.2041
+Release:	0.1
 License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
 Obsoletes:	GoogleEarth
 Source0:	http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.i386.rpm
-# NoSource0-md5:	8a2e05df9bce98cc32f50e7c2da9dd60
+# NoSource0-md5:	9e1d62b41b0891d056ac97b6a9e9b939
 NoSource:	0
+Source1:        http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.x86_64.rpm
+# NoSource1-md5:	aa7f9abea059106e7257c215ef69f8a9
+NoSource:       1
 Source2:	%{name}.desktop
 Patch0:		decimal_separator.patch
 URL:		http://www.google.com/earth
@@ -23,7 +26,7 @@ Requires:	cpuinfo(sse2)
 # for /lib/ld-lsb.so.3
 Requires:	lsb-release >= 4.0
 Suggests:	fonts-TTF-bitstream-vera
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir		%{_libdir}/%{name}
@@ -61,7 +64,12 @@ miejsca typu restauracje, szpitale, szkoły i inne.
 
 %prep
 %setup -qcT
+%ifarch %{ix86}
 SOURCE=%{S:0}
+%endif
+%ifarch %{x8664}
+SOURCE=%{S:1}
+%endif
 
 V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
 if [ "$V" != "%{version}" ]; then
@@ -117,7 +125,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/google-earth
 %dir %{_appdir}
 %{_appdir}/*.ini
-%{_appdir}/qt.conf
 %{_appdir}/kh20
 %attr(755,root,root) %{_appdir}/googleearth-bin
 %attr(755,root,root) %{_appdir}/googleearth
@@ -125,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_appdir}/*.so*
 %dir %{_appdir}/plugins
 %dir %{_appdir}/plugins/imageformats
+%attr(755,root,root) %{_appdir}/plugins/libnpgeinprocessplugin.so
 %attr(755,root,root) %{_appdir}/plugins/imageformats/*.so*
 %dir %{_appdir}/shaders
 %{_appdir}/shaders/*
@@ -175,50 +183,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_appdir}/resources
 %{_appdir}/resources/*.png
-%{_appdir}/resources/*.country
 %{_appdir}/resources/*.kml
 %{_appdir}/resources/*.rcc
 %{_appdir}/resources/doppler.txt
 %{_appdir}/resources/flightsim
-%lang(ar) %{_appdir}/resources/ar.locale
-%lang(bg) %{_appdir}/resources/bg.locale
-%lang(ca) %{_appdir}/resources/ca.locale
-%lang(cs) %{_appdir}/resources/cs.locale
-%lang(da) %{_appdir}/resources/da.locale
-%lang(de) %{_appdir}/resources/de.locale
-%lang(el) %{_appdir}/resources/el.locale
-%lang(es) %{_appdir}/resources/es-419.locale
-%lang(en) %{_appdir}/resources/en.locale
-%lang(es) %{_appdir}/resources/es.locale
-%lang(fi) %{_appdir}/resources/fi.locale
-%lang(fil) %{_appdir}/resources/fil.locale
-%lang(fr) %{_appdir}/resources/fr.locale
-%lang(he) %{_appdir}/resources/he.locale
-%lang(hi) %{_appdir}/resources/hi.locale
-%lang(hr) %{_appdir}/resources/hr.locale
-%lang(hu) %{_appdir}/resources/hu.locale
-%lang(id) %{_appdir}/resources/id.locale
-%lang(it) %{_appdir}/resources/it.locale
-%lang(ja) %{_appdir}/resources/ja.locale
-%lang(ko) %{_appdir}/resources/ko.locale
-%lang(lt) %{_appdir}/resources/lt.locale
-%lang(lv) %{_appdir}/resources/lv.locale
-%lang(nl) %{_appdir}/resources/nl.locale
-%lang(no) %{_appdir}/resources/no.locale
-%lang(pl) %{_appdir}/resources/pl.locale
-%lang(pt) %{_appdir}/resources/pt.locale
-%lang(pt_PT) %{_appdir}/resources/pt-PT.locale
-%lang(ro) %{_appdir}/resources/ro.locale
-%lang(ru) %{_appdir}/resources/ru.locale
-%lang(sk) %{_appdir}/resources/sk.locale
-%lang(sl) %{_appdir}/resources/sl.locale
-%lang(sr) %{_appdir}/resources/sr.locale
-%lang(sv) %{_appdir}/resources/sv.locale
-%lang(th) %{_appdir}/resources/th.locale
-%lang(tr) %{_appdir}/resources/tr.locale
-%lang(uk) %{_appdir}/resources/uk.locale
-%lang(vi) %{_appdir}/resources/vi.locale
-%lang(zh) %{_appdir}/resources/zh-Hans.locale
-%lang(zh_TW) %{_appdir}/resources/zh-Hant.locale
 %{_desktopdir}/google-earth.desktop
 %{_iconsdir}/hicolor/*/apps/google-earth.png
