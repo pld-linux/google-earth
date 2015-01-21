@@ -9,11 +9,9 @@ License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
 Obsoletes:	GoogleEarth
 Source0:	http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.i386.rpm
-# NoSource0-md5:	9e1d62b41b0891d056ac97b6a9e9b939
-NoSource:	0
+# Source0-md5:	9e1d62b41b0891d056ac97b6a9e9b939
 Source1:        http://dl.google.com/linux/earth/rpm/stable/i386/%{name}-stable-%{version}-0.x86_64.rpm
-# NoSource1-md5:	aa7f9abea059106e7257c215ef69f8a9
-NoSource:       1
+# Source1-md5:	aa7f9abea059106e7257c215ef69f8a9
 Source2:	%{name}.desktop
 Patch0:		decimal_separator.patch
 URL:		http://www.google.com/earth
