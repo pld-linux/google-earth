@@ -29,10 +29,13 @@ Suggests:	fonts-TTF-bitstream-vera
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		skip_post_check_so	libGLU.so.1
+
 %define		_appdir		%{_libdir}/%{name}
 
 # Qt4 plugins
 %define		_noautoprovfiles	%{_libdir}/%{name}/plugins/imageformats
+
 # Mesa-libGLU
 %define		mesa_caps		libGLU.so
 # QtCore, QtGui, QtNetwork, QtWebKit
@@ -45,11 +48,24 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		mdns_caps		libnss_mdns4_minimal.so.2
 # proj
 %define		proj_caps		libproj.so.0
+# expat
+%define		expat_caps		libexpat.so.1
+# nss
+%define		nss_caps		libfreebl3.so libssl3.so libsoftokn3.so libsmime3.so libnss3.so libnssckbi.so libnssdbm3.so libnssutil3.so
+# nspr
+%define		nspr_caps		libnspr4.so libplc4.so libplds4.so
+# sqlite3
+%define		sqlite_caps		libsqlite3.so
+# gdal
+%define		gdal_caps		libgdal.so.1
+# gdata
+%define		gdata_caps		libgdata.so
 
-%define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps} %{mdns_caps} %{proj_caps}
+# check with:
+# cd lib; for a in *.so*; do ls -ld /lib*/$a /usr/lib*/$a; done 2>/dev/null
+
+%define		_noautoprov		%{mesa_caps} %{qt4_caps} %{curl_caps} %{icu_caps} %{mdns_caps} %{proj_caps} %{expat_caps} %{nss_caps} %{nspr_caps} %{sqlite_caps} %{gdal_caps} %{gdata_caps}
 %define		_noautoreq		%{_noautoprov}
-
-%define		skip_post_check_so	libGLU.so.1
 
 %description
 Google Earth puts a planet's worth of imagery and other geographic
@@ -123,6 +139,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/google-earth
+%{_desktopdir}/google-earth.desktop
+%{_iconsdir}/hicolor/*/apps/google-earth.png
 %dir %{_appdir}
 %{_appdir}/*.ini
 %{_appdir}/kh20
@@ -187,5 +205,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/resources/*.rcc
 %{_appdir}/resources/doppler.txt
 %{_appdir}/resources/flightsim
-%{_desktopdir}/google-earth.desktop
-%{_iconsdir}/hicolor/*/apps/google-earth.png
