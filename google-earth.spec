@@ -3,16 +3,16 @@
 Summary:	Google Earth - 3D planet viewer
 Summary(pl.UTF-8):	Google Earth - globus
 Name:		google-earth
-Version:	7.1.2.2041
+Version:	7.1.4.1529
 Release:	0.1
 License:	Multiple, see http://www.google.com/earth
 Group:		Applications/Graphics
 Obsoletes:	GoogleEarth
 Source0:	http://dl.google.com/dl/earth/client/current/%{name}-stable_current_i386.rpm
-# NoSource0-md5:	9e1d62b41b0891d056ac97b6a9e9b939
+# NoSource0-md5:	
 NoSource:	0
 Source1:        http://dl.google.com/dl/earth/client/current/%{name}-stable_current_x86_64.rpm
-# NoSource1-md5:	aa7f9abea059106e7257c215ef69f8a9
+# NoSource1-md5:	
 NoSource:	1
 Source2:	%{name}.desktop
 Patch0:		decimal_separator.patch
